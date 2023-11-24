@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Media.Control;
 using GTA;
+using LemonUI;
 
 namespace WhatsPlaying;
 
@@ -13,6 +14,9 @@ public class WhatsPlaying : Script
     #region Fields
 
     private static readonly Dashboard dashboard = new Dashboard();
+
+    private readonly ObjectPool pool = new ObjectPool();
+    private readonly CurrentMedia currentMedia = new CurrentMedia();
     
     private static GlobalSystemMediaTransportControlsSessionMediaProperties properties = null;
     
@@ -25,6 +29,8 @@ public class WhatsPlaying : Script
     /// </summary>
     public WhatsPlaying()
     {
+        pool.Add(currentMedia);
+        
         Task.Factory.StartNew(UpdateMediaProperties);
         Tick += OnTick;
     }
@@ -54,6 +60,11 @@ public class WhatsPlaying : Script
         {
             return;
         }
+
+        currentMedia.Title = properties.Title;
+        currentMedia.Artist = properties.Artist;
+        
+        pool.Process();
         
         dashboard.SetRadio("", "Media Player", properties.Artist, properties.Title);
     }
