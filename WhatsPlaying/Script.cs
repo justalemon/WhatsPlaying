@@ -48,8 +48,14 @@ public class WhatsPlaying : Script
     
     #region Event Functions
 
-    private async void OnTick(object sender, EventArgs e)
+    private void OnTick(object sender, EventArgs e)
     {
+        if (properties == null)
+        {
+            return;
+        }
+        
+        dashboard.SetRadio("", "Media Player", properties.Artist, properties.Title);
     }
 
     #endregion
