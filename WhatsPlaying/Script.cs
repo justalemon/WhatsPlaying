@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Windows.Media.Control;
 using GTA;
 
 namespace WhatsPlaying;
@@ -12,6 +14,8 @@ public class WhatsPlaying : Script
 
     private static readonly Dashboard dashboard = new Dashboard();
     
+    private static GlobalSystemMediaTransportControlsSessionMediaProperties properties = null;
+    
     #endregion
     
     #region Constructors
@@ -21,7 +25,23 @@ public class WhatsPlaying : Script
     /// </summary>
     public WhatsPlaying()
     {
+        Task.Factory.StartNew(UpdateMediaProperties);
         Tick += OnTick;
+    }
+    
+    #endregion
+    
+    #region Tools
+
+    private static async Task UpdateMediaProperties()
+    {
+        GlobalSystemMediaTransportControlsSessionManager gmtcsm = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+
+        while (true)
+        {
+            GlobalSystemMediaTransportControlsSession session = gmtcsm.GetCurrentSession();
+            properties = await session.TryGetMediaPropertiesAsync();
+        }
     }
     
     #endregion
