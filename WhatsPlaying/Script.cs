@@ -15,6 +15,7 @@ public class WhatsPlaying : Script
     #region Fields
     
     private static GlobalSystemMediaTransportControlsSessionMediaProperties properties = null;
+    private static Exception exception = null;
 
     private readonly ObjectPool pool = new ObjectPool();
     private readonly Dashboard dashboard = new Dashboard();
@@ -47,8 +48,16 @@ public class WhatsPlaying : Script
 
         while (true)
         {
-            GlobalSystemMediaTransportControlsSession session = gmtcsm.GetCurrentSession();
-            properties = await session.TryGetMediaPropertiesAsync();
+            try
+            {
+                GlobalSystemMediaTransportControlsSession session = gmtcsm.GetCurrentSession();
+                properties = await session.TryGetMediaPropertiesAsync();
+            }
+            catch (Exception e)
+            {
+                exception = e;
+                return;
+            }
         }
     }
     
@@ -58,6 +67,11 @@ public class WhatsPlaying : Script
 
     private void OnTick(object sender, EventArgs e)
     {
+        if (exception != null)
+        {
+            throw exception;
+        }
+        
         bool isUsingVehicle = Game.Player.Character.CurrentVehicle != null;
         bool isFirstPerson = Function.Call<int>(isUsingVehicle ? Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE : Hash.GET_FOLLOW_PED_CAM_VIEW_MODE) == 4;
 
