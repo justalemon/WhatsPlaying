@@ -6,6 +6,10 @@ on:
   push:
   pull_request:
 
+permissions:
+  # releases
+  contents: write
+
 jobs:
   lint-and-compile:
     strategy:
