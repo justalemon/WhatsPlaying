@@ -8,6 +8,12 @@ namespace WhatsPlaying;
 /// </summary>
 public class WhatsPlaying : Script
 {
+    #region Fields
+
+    private static readonly Dashboard dashboard = new Dashboard();
+    
+    #endregion
+    
     #region Constructors
 
     /// <summary>
