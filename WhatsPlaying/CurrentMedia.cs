@@ -87,7 +87,7 @@ public class CurrentMedia : IProcessable, IRecalculable
     /// </summary>
     public void Process()
     {
-        if (!Visible)
+        if (!Visible || string.IsNullOrWhiteSpace(title.Text) || string.IsNullOrWhiteSpace(artist.Text))
         {
             return;
         }
