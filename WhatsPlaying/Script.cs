@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Media.Control;
 using GTA;
+using GTA.Native;
 using LemonUI;
 
 namespace WhatsPlaying;
@@ -12,13 +13,14 @@ namespace WhatsPlaying;
 public class WhatsPlaying : Script
 {
     #region Fields
-
-    private static readonly Dashboard dashboard = new Dashboard();
-
-    private readonly ObjectPool pool = new ObjectPool();
-    private readonly CurrentMedia currentMedia = new CurrentMedia();
     
     private static GlobalSystemMediaTransportControlsSessionMediaProperties properties = null;
+
+    private readonly ObjectPool pool = new ObjectPool();
+    private readonly Dashboard dashboard = new Dashboard();
+    private readonly CurrentMedia currentMedia = new CurrentMedia();
+    
+    private Configuration config = Configuration.Load();
     
     #endregion
     
@@ -56,11 +58,10 @@ public class WhatsPlaying : Script
 
     private void OnTick(object sender, EventArgs e)
     {
-        if (properties == null)
-        {
-            return;
-        }
-
+        bool isUsingVehicle = Game.Player.Character.CurrentVehicle != null;
+        bool isFirstPerson = Function.Call<int>(isUsingVehicle ? Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE : Hash.GET_FOLLOW_PED_CAM_VIEW_MODE) == 4;
+        
+        currentMedia.Visible = (config.UiShowOnFirstPerson && isFirstPerson) || (config.UiShowOnFoot && !isUsingVehicle) || (!isFirstPerson && isUsingVehicle);
         currentMedia.Title = properties.Title;
         currentMedia.Artist = properties.Artist;
         
