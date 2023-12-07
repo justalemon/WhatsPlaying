@@ -1,4 +1,4 @@
-﻿# WhatsPlaying<br>[![GitHub Actions][actions-img]][actions-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
+# WhatsPlaying<br>[![GitHub Actions][actions-img]][actions-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
 
 WhatsPlaying is a simple mod for Grand Theft Auto V that shows your currently playing song and it's artist in the car dashboard and screen.
 
