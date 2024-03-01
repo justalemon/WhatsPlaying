@@ -51,6 +51,13 @@ public class WhatsPlaying : Script
             try
             {
                 GlobalSystemMediaTransportControlsSession session = gmtcsm.GetCurrentSession();
+
+                if (session == null)
+                {
+                    properties = null;
+                    continue;
+                }
+                
                 properties = await session.TryGetMediaPropertiesAsync();
             }
             catch (Exception e)
