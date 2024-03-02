@@ -85,7 +85,7 @@ public class WhatsPlaying : Script
         string title = properties == null ? "" : properties.Title;
         string artist = properties == null ? "" : properties.Artist;
         
-        currentMedia.Visible = (config.UiShowOnFirstPerson && isFirstPerson) || (config.UiShowOnFoot && !isUsingVehicle) || (!isFirstPerson && isUsingVehicle);
+        currentMedia.Visible = !Game.IsCutsceneActive && ((config.UiShowOnFirstPerson && isFirstPerson) || (config.UiShowOnFoot && !isUsingVehicle) || (!isFirstPerson && isUsingVehicle));
         currentMedia.Title = title;
         currentMedia.Artist = artist;
         
