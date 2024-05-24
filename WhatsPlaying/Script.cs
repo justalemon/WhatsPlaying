@@ -14,14 +14,14 @@ public class WhatsPlaying : Script
 {
     #region Fields
     
+    private static Configuration config = Configuration.Load();
+    
     private static GlobalSystemMediaTransportControlsSessionMediaProperties properties = null;
     private static Exception exception = null;
 
     private readonly ObjectPool pool = new ObjectPool();
     private readonly Dashboard dashboard = new Dashboard();
-    private readonly CurrentMedia currentMedia = new CurrentMedia();
-    
-    private Configuration config = Configuration.Load();
+    private readonly CurrentMedia currentMedia = new CurrentMedia(config.Offset, config.Corner);
     
     #endregion
     

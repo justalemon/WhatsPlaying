@@ -1,6 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using LemonUI;
 using LemonUI.Elements;
+using LemonUI.Tools;
 
 namespace WhatsPlaying;
 
@@ -13,14 +15,14 @@ public class CurrentMedia : IProcessable, IRecalculable
 
     private readonly ScaledText title = new ScaledText(PointF.Empty, "", 0.5f)
     {
-        ShadowStyle =
+        ShadowStyle = new Shadow
         {
             UseClassic = true
         }
     };
     private readonly ScaledText artist = new ScaledText(PointF.Empty, "", 0.4f)
     {
-        ShadowStyle =
+        ShadowStyle = new Shadow
         {
             UseClassic = true
         },
@@ -28,7 +30,9 @@ public class CurrentMedia : IProcessable, IRecalculable
     };
 
     private bool needsRecalculation = false;
-    
+    private PointF offset;
+    private Corner corner;
+
     #endregion
     
     #region Properties
@@ -54,7 +58,6 @@ public class CurrentMedia : IProcessable, IRecalculable
             needsRecalculation = true;
         }
     }
-
     /// <summary>
     /// The artist of the current media.
     /// </summary>
@@ -72,6 +75,30 @@ public class CurrentMedia : IProcessable, IRecalculable
             needsRecalculation = true;
         }
     }
+    /// <summary>
+    /// The offset from the corner.
+    /// </summary>
+    public PointF Offset
+    {
+        get => offset;
+        set
+        {
+            offset = value;
+            needsRecalculation = true;
+        }
+    }
+    /// <summary>
+    /// The corner to use.
+    /// </summary>
+    public Corner Corner
+    {
+        get => corner;
+        set
+        {
+            corner = value;
+            needsRecalculation = true;
+        }
+    }
 
     #endregion
 
@@ -80,8 +107,11 @@ public class CurrentMedia : IProcessable, IRecalculable
     /// <summary>
     /// Creates a new media viewer.
     /// </summary>
-    public CurrentMedia()
+    public CurrentMedia(PointF newOffset, Corner newCorner)
     {
+        offset = newOffset;
+        corner = newCorner;
+        needsRecalculation = true;
     }
 
     #endregion
@@ -112,17 +142,31 @@ public class CurrentMedia : IProcessable, IRecalculable
     /// </summary>
     public void Recalculate()
     {
-        Screen.SetElementAlignment(GFXAlignment.Left, GFXAlignment.Bottom);
-        PointF pos = Screen.GetRealPosition(PointF.Empty);
-        Screen.ResetElementAlignment();
+        PointF targetCorner;
 
-        const float offset = 5;
-        const float separation = 5;
+        SafeZone.ResetAlignment();
+        switch (corner)
+        {
+            case Corner.TopLeft:
+                targetCorner = SafeZone.TopLeft;
+                break;
+            case Corner.TopRight:
+                targetCorner = SafeZone.TopRight;
+                break;
+            case Corner.BottomLeft:
+                targetCorner = SafeZone.BottomLeft;
+                break;
+            case Corner.BottomRight:
+                targetCorner = SafeZone.BottomRight;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(corner), "Invalid corner side.");
+        }
 
-        pos.X += 277;
+        PointF pos = new PointF(targetCorner.X + offset.X, targetCorner.Y + offset.Y);
 
-        artist.Position = new PointF(pos.X, pos.Y - (artist.LineHeight * artist.LineCount) - offset);
-        title.Position = new PointF(pos.X, artist.Position.Y - (title.LineHeight * title.LineCount) - separation);
+        artist.Position = pos with {Y = pos.Y - (artist.LineHeight * artist.LineCount) - 5};
+        title.Position = pos with {Y = artist.Position.Y - (title.LineHeight * title.LineCount) - 5};
     }
     
     #endregion

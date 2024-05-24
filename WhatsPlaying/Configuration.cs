@@ -33,6 +33,17 @@ internal class Configuration
     #region Properties
 
     /// <summary>
+    /// The offset from the corner.
+    /// </summary>
+    [JsonProperty("offset")]
+    [JsonConverter(typeof(PointFConverter))]
+    public PointF Offset { get; set; } = new PointF(277, 0);
+    /// <summary>
+    /// The corner on the screen to use as a start.
+    /// </summary>
+    [JsonProperty("corner")]
+    public Corner Corner { get; set; } = Corner.BottomLeft;
+    /// <summary>
     /// Whether the UI should be shown on first person.
     /// </summary>
     [JsonProperty("ui_show_on_first_person")]
