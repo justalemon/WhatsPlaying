@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using GTA.UI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using WhatsPlaying.Converters;
 
 namespace WhatsPlaying;
 
@@ -14,6 +18,15 @@ internal class Configuration
     #region Fields
 
     private static readonly string path = Path.ChangeExtension(new Uri(Assembly.GetAssembly(typeof(Configuration)).CodeBase).LocalPath, ".json");
+    private static readonly JsonSerializerSettings settings = new JsonSerializerSettings
+    {
+        ObjectCreationHandling = ObjectCreationHandling.Replace,
+        Converters = [
+            new StringEnumConverter()
+        ],
+        Formatting = Formatting.Indented,
+        Culture = CultureInfo.InvariantCulture
+    };
     
     #endregion
     
@@ -39,7 +52,7 @@ internal class Configuration
     /// </summary>
     public void Save()
     {
-        string contents = JsonConvert.SerializeObject(this);
+        string contents = JsonConvert.SerializeObject(this, settings);
         File.WriteAllText(path, contents);
     }
     /// <summary>
@@ -51,18 +64,18 @@ internal class Configuration
         try
         {
             string contents = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<Configuration>(contents);
-        }
-        catch (JsonSerializationException e)
-        {
-            Notification.Show($"~r~Error~w~: Unable to load config: {e.Message}");
-            return new Configuration();
+            return JsonConvert.DeserializeObject<Configuration>(contents, settings);
         }
         catch (FileNotFoundException)
         {
             Configuration config = new Configuration();
             config.Save();
             return config;
+        }
+        catch (Exception e)
+        {
+            Notification.Show($"~r~Error~w~: Unable to load config: {e.Message}");
+            return new Configuration();
         }
     }
     
