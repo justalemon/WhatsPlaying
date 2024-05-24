@@ -13,11 +13,17 @@ public class CurrentMedia : IProcessable, IRecalculable
 
     private readonly ScaledText title = new ScaledText(PointF.Empty, "", 0.5f)
     {
-        Shadow = true
+        ShadowStyle =
+        {
+            UseClassic = true
+        }
     };
     private readonly ScaledText artist = new ScaledText(PointF.Empty, "", 0.4f)
     {
-        Shadow = true,
+        ShadowStyle =
+        {
+            UseClassic = true
+        },
         Color = Color.LightGray
     };
 

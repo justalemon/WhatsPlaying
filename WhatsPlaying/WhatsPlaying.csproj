@@ -23,7 +23,7 @@
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="LemonUI.SHVDN3" Version="1.10.0">
+    <PackageReference Include="LemonUI.SHVDN3" Version="2.1.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <Reference Include="Microsoft.CSharp" />
