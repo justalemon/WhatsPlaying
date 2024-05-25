@@ -165,8 +165,8 @@ public class CurrentMedia : IProcessable, IRecalculable
 
         PointF pos = new PointF(targetCorner.X + offset.X, targetCorner.Y + offset.Y);
 
-        artist.Position = pos with {Y = pos.Y - (artist.LineHeight * artist.LineCount) - 5};
-        title.Position = pos with {Y = artist.Position.Y - (title.LineHeight * title.LineCount) - 5};
+        artist.Position = pos with {Y = pos.Y - (artist.LineHeight * artist.LineCount) - title.LineCount};
+        title.Position = pos with {Y = artist.Position.Y - (title.LineHeight * title.LineCount) - (5 * title.LineCount) - 5};
     }
     
     #endregion
