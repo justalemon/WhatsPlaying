@@ -22,10 +22,10 @@ public class WhatsPlaying : Script
 
     private readonly ObjectPool pool = new ObjectPool();
     private readonly Dashboard dashboard = new Dashboard();
-    private readonly CurrentMedia currentMedia = new CurrentMedia(config.Offset, config.Corner, config.MaxWidth);
-    
+    private readonly CurrentMedia currentMedia = new CurrentMedia(config.Offset, config.Corner, config.MaxWidth, config.Alignment);
+
     #endregion
-    
+
     #region Constructors
 
     /// <summary>

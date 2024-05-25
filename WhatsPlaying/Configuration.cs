@@ -27,9 +27,9 @@ internal class Configuration
         Formatting = Formatting.Indented,
         Culture = CultureInfo.InvariantCulture
     };
-    
+
     #endregion
-    
+
     #region Properties
 
     /// <summary>
@@ -43,6 +43,11 @@ internal class Configuration
     /// </summary>
     [JsonProperty("corner")]
     public Corner Corner { get; set; } = Corner.BottomLeft;
+    /// <summary>
+    /// The alignment of the text elements.
+    /// </summary>
+    [JsonProperty("alignment")]
+    public Alignment Alignment { get; set; } = Alignment.Left;
     /// <summary>
     /// The maximum width of any text.
     /// </summary>

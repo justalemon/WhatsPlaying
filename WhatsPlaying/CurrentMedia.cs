@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using GTA.UI;
 using LemonUI;
 using LemonUI.Elements;
 using LemonUI.Tools;
@@ -107,7 +108,7 @@ public class CurrentMedia : IProcessable, IRecalculable
     /// <summary>
     /// Creates a new media viewer.
     /// </summary>
-    public CurrentMedia(PointF offset, Corner corner, float maxWidth)
+    public CurrentMedia(PointF offset, Corner corner, float maxWidth, Alignment alignment)
     {
         this.offset = offset;
         this.corner = corner;
@@ -117,6 +118,9 @@ public class CurrentMedia : IProcessable, IRecalculable
             title.WordWrap = maxWidth;
             artist.WordWrap = maxWidth;
         }
+
+        title.Alignment = alignment;
+        artist.Alignment = alignment;
 
         needsRecalculation = true;
     }
