@@ -44,6 +44,11 @@ internal class Configuration
     [JsonProperty("corner")]
     public Corner Corner { get; set; } = Corner.BottomLeft;
     /// <summary>
+    /// The maximum width of any text.
+    /// </summary>
+    [JsonProperty("max_width")]
+    public float MaxWidth { get; set; } = 400;
+    /// <summary>
     /// Whether the UI should be shown on first person.
     /// </summary>
     [JsonProperty("ui_show_on_first_person")]

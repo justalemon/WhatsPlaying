@@ -107,10 +107,17 @@ public class CurrentMedia : IProcessable, IRecalculable
     /// <summary>
     /// Creates a new media viewer.
     /// </summary>
-    public CurrentMedia(PointF newOffset, Corner newCorner)
+    public CurrentMedia(PointF offset, Corner corner, float maxWidth)
     {
-        offset = newOffset;
-        corner = newCorner;
+        this.offset = offset;
+        this.corner = corner;
+
+        if (maxWidth >= 0)
+        {
+            title.WordWrap = maxWidth;
+            artist.WordWrap = maxWidth;
+        }
+
         needsRecalculation = true;
     }
 

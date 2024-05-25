@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Windows.Media.Control;
 using GTA;
 using GTA.Native;
+using GTA.UI;
 using LemonUI;
 
 namespace WhatsPlaying;
@@ -21,7 +22,7 @@ public class WhatsPlaying : Script
 
     private readonly ObjectPool pool = new ObjectPool();
     private readonly Dashboard dashboard = new Dashboard();
-    private readonly CurrentMedia currentMedia = new CurrentMedia(config.Offset, config.Corner);
+    private readonly CurrentMedia currentMedia = new CurrentMedia(config.Offset, config.Corner, config.MaxWidth);
     
     #endregion
     
