@@ -28,7 +28,7 @@ jobs:
       - name: Patch csproj version
         uses: justalemon/VersionPatcher@v0.8
         with:
-          version: 1.2.2.${{ github.run_number }}
+          version: 1.1.0.${{ github.run_number }}
           use-tag: true
           csproj-files: "**/**.csproj"
       - name: Compile
