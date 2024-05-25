@@ -76,9 +76,10 @@ public class WhatsPlaying : Script
     {
         if (exception != null)
         {
-            throw exception;
+            Notification.Show($"Exception while attempting to fetch song: {exception.Message}", true);
+            exception = null;
         }
-        
+
         bool isUsingVehicle = Game.Player.Character.CurrentVehicle != null;
         bool isFirstPerson = Function.Call<int>(isUsingVehicle ? Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE : Hash.GET_FOLLOW_PED_CAM_VIEW_MODE) == 4;
 
